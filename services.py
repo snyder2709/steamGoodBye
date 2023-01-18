@@ -3,8 +3,14 @@ from psycopg2.extensions import (cursor as Cursor, connection as Connection, ISO
 from psycopg2 import Error
 from werkzeug.security import generate_password_hash
 from typing import Any
+from decouple import config
+import os
 
-from config import (USER, PASSWORD, HOST, PORT)
+
+USER = config('USER', cast=str)
+PASSWORD = config('PASSWORD', cast=str)
+HOST = config('HOST', cast=str)
+PORT = config('PORT', cast=str)
 
 
 class Connecting():
@@ -51,12 +57,12 @@ class Connecting():
                     id SERIAL PRIMARY KEY,
                     title VARCHAR(30) UNIQUE NOT NULL,
                     description TEXT NOT NULL,
+                    year_of_issue INTEGER NOT NULL,
                     price DOUBLE PRECISION DEFAULT(60)
                 );
                 CREATE TABLE IF NOT EXISTS genres(
                     id SERIAL PRIMARY KEY,
-                    title VARCHAR(30) UNIQUE NOT NULL,
-                    description TEXT NOT NULL
+                    title VARCHAR(30) UNIQUE NOT NULL
                 );
                 CREATE TABLE IF NOT EXISTS result(
                     id SERIAL PRIMARY KEY,
@@ -68,10 +74,11 @@ class Connecting():
                     email VARCHAR(60) UNIQUE NOT NULL,
                     login VARCHAR(32) UNIQUE NOT NULL,
                     password VARCHAR(200) NOT NULL,
-                    first_name VARCHAR(32) NOT NULL,
-                    last_name VARCHAR(32) NOT NULL,
                     wallet DOUBLE PRECISION DEFAULT(0),
-                    date_reg DATE DEFAULT(now())
+                    date_reg DATE DEFAULT(now()),
+                    is_admin BOOL DEFAULT(False),
+                    is_manager BOOL DEFAULT(False),
+                    source VARCHAR(30) DEFAULT('main')
                 );
                 CREATE TABLE IF NOT EXISTS codes(
                     id SERIAL PRIMARY KEY,
@@ -79,37 +86,67 @@ class Connecting():
                     key VARCHAR(25) NOT NULL UNIQUE,
                     is_active BOOL DEFAULT(True)
                 );
-                CREATE TABLE IF NOT EXISTS admin(
-                    id SERIAL PRIMARY KEY,
-                    email VARCHAR(60) UNIQUE NOT NULL,
-                    login VARCHAR(32) UNIQUE NOT NULL,
-                    password VARCHAR(200) NOT NULL,
-                    first_name VARCHAR(32) NOT NULL,
-                    last_name VARCHAR(32) NOT NULL,
-                    date_reg DATE DEFAULT(now())
-                );
                 CREATE TABLE IF NOT EXISTS user_games(
                     id SERIAL PRIMARY KEY,
                     user_id INTEGER REFERENCES users(id),
                     game_id INTEGER REFERENCES games(id),
-                    game_key VARCHAR(25) UNIQUE
+                    code_id INTEGER REFERENCES codes(id)
                 );
                 CREATE TABLE IF NOT EXISTS basket(
                     id SERIAL PRIMARY KEY,
                     user_id INTEGER REFERENCES users(id),
                     game_id INTEGER REFERENCES games(id)
                 );
+                CREATE TABLE IF NOT EXISTS autorization(
+                    id SERIAL PRIMARY KEY,
+                    user_id INTEGER REFERENCES users(id),
+                    token text UNIQUE NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS invite(
+                    id SERIAL PRIMARY KEY,
+                    user_id INTEGER REFERENCES users(id),
+                    friend_id INTEGER REFERENCES users(id)
+                );
+                CREATE TABLE IF NOT EXISTS friends(
+                    id SERIAL PRIMARY KEY,
+                    user_id INTEGER REFERENCES users(id),
+                    friend_id INTEGER REFERENCES users(id)
+                );
             """)
         self.connection.commit()
         print('Tables successfuly created!')
 
-    def create_superuser(self, email, login, password, first_name, last_name):
+    def generate_token(self):
+        token = os.urandom(512).hex()
+        return token
+
+    def autorization(self, user_id, token):
+        with self.connection.cursor() as cursor:
+            cursor.execute(f"""
+                INSERT INTO autorization(user_id, token)
+                VALUES ({user_id}, '{token}');
+            """)
+        self.connection.commit()
+        print('Авторизация выполнена')
+
+    def check_token(self, token):
+        data: list[tuple] = []
+        with self.connection.cursor() as cursor:
+            cursor.execute(f"""
+                SELECT * FROM autorization WHERE token='{token}';
+            """)
+            data = cursor.fetchone()
+        self.connection.commit()
+        print(data)
+        return data
+
+    def create_superuser(self, email, login, password):
         try:
             hash_password = generate_password_hash(password)
             with self.connection.cursor() as cursor:
                 cursor.execute(f"""
-                    INSERT INTO admin(email, login, password, first_name, last_name)
-                    VALUES ('{email}', '{login}', '{hash_password}', '{first_name}', '{last_name}');
+                    INSERT INTO users(email, login, password, is_admin, is_manager)
+                    VALUES ('{email}', '{login}', '{hash_password}', True, True);
                 """)
                 self.connection.commit()
                 print('Superuser created')
@@ -120,19 +157,19 @@ class Connecting():
         data: list[tuple] = []
         with self.connection.cursor() as cursor:
             cursor.execute(f"""
-                SELECT * FROM admin WHERE login='{login}';
+                SELECT * FROM users WHERE login='{login}' AND is_admin=True;
             """)
             data = cursor.fetchall()
         self.connection.commit()
         print(data)
         return data
 
-    def registration(self, email, login, password, first_name, last_name):
+    def registration(self, email, login, password):
         hash_password = generate_password_hash(password)
         with self.connection.cursor() as cursor:
             cursor.execute(f"""
-                INSERT INTO users(email, login, password, first_name, last_name)
-                VALUES ('{email}','{login}', '{hash_password}', '{first_name}', '{last_name}');
+                INSERT INTO users(email, login, password)
+                VALUES ('{email}','{login}', '{hash_password}');
             """)
         self.connection.commit()
         print('Registration success!')
@@ -141,7 +178,7 @@ class Connecting():
         data: list[tuple] = []
         with self.connection.cursor() as cursor:
             cursor.execute(f"""
-                SELECT * FROM users WHERE login='{login}';
+                SELECT id, email, login, password, wallet FROM users WHERE login='{login}';
             """)
             data = cursor.fetchall()
         self.connection.commit()
@@ -163,7 +200,7 @@ class Connecting():
         data = ()
         with self.connection.cursor() as cursor:
             cursor.execute(f"""
-                SELECT login, first_name, last_name, wallet, email FROM users WHERE id={id};
+                SELECT * FROM users WHERE id={id};
             """)
             data = cursor.fetchone()
         self.connection.commit()
@@ -174,10 +211,11 @@ class Connecting():
         data: list[tuple] = []
         with self.connection.cursor() as cursor:
             cursor.execute(f"""
-                SELECT users.id, games.title, games.description FROM basket
-                INNER JOIN games ON basket.game_id = games.id
-                INNER JOIN users ON basket.user_id = users.id
-                WHERE users.id = {id};
+                SELECT users.login, games.title, codes.key FROM user_games
+                INNER JOIN users ON user_games.user_id = users.id
+                INNER JOIN games ON user_games.game_id = games.id
+                INNER JOIN codes ON user_games.code_id = codes.id
+                WHERE user_games.user_id = {id};
             """)
             data = cursor.fetchall()
         self.connection.commit()
@@ -211,11 +249,11 @@ class Connecting():
         self.connection.commit()
         print('Key added!')
 
-    def set_genres(self, title, description):
+    def set_genres(self, title):
         with self.connection.cursor() as cursor:
             cursor.execute(f"""
-                INSERT INTO genres(title, description)
-                VALUES ('{title}','{description}');
+                INSERT INTO genres(title)
+                VALUES ('{title}');
             """)
         self.connection.commit()
         print('Row has added to genre')
@@ -228,11 +266,11 @@ class Connecting():
         self.connection.commit()
         return data
 
-    def set_game(self, title, description, price):
+    def set_game(self, title, description, year, price):
         with self.connection.cursor() as cursor:
             cursor.execute(f"""
-                INSERT INTO games(title, description, price)
-                VALUES ('{title}', '{description}', {price});
+                INSERT INTO games(title, description, year_of_issue, price)
+                VALUES ('{title}', '{description}', {year}, {price});
             """)
         self.connection.commit()
         print('Game added!')
@@ -288,7 +326,7 @@ class Connecting():
         data: list[tuple] = []
         with self.connection.cursor() as cursor:
             cursor.execute("""
-                SELECT games.id, games.title, games.description, genres.title, genres.description, games.price FROM result
+                SELECT games.id, games.title, games.description, genres.title, games.year_of_issue, games.price FROM result
                 INNER JOIN games ON result.game_id = games.id
                 INNER JOIN genres ON result.genre_id = genres.id;
             """)
@@ -349,13 +387,14 @@ class Connecting():
         print('Игра куплена')
 
     def get_key(self, game_id):
-        data = ()
+        data: list[tuple] = []
         with self.connection.cursor() as cursor:
             cursor.execute(f"""
-                SELECT key FROM codes WHERE game_id = {game_id} and is_active = True;
+                SELECT key, id FROM codes WHERE game_id = {game_id} and is_active = True;
             """)
             data = cursor.fetchone()
         self.connection.commit()
+        print(data)
         return data
 
     def key_send(self, key):
@@ -366,11 +405,11 @@ class Connecting():
         self.connection.commit()
         print('Ключ ушел')
 
-    def add_game_to_user(self, user_id, game_id, key):
+    def add_game_to_user(self, user_id, game_id, code_id):
         with self.connection.cursor() as cursor:
             cursor.execute(f"""
-                INSERT INTO user_games(user_id, game_id, game_key)
-                VALUES ({user_id}, {game_id}, '{key}');
+                INSERT INTO user_games(user_id, game_id, code_id)
+                VALUES ({user_id}, {game_id}, '{code_id}');
             """)
         self.connection.commit()
         print('Игра добавлена пользователю')
@@ -379,8 +418,20 @@ class Connecting():
         data = ()
         with self.connection.cursor() as cursor:
             cursor.execute(f"""
-                SELECT email, login, first_name, last_name FROM users WHERE login = '{add_friend}';
+                SELECT email, login FROM users WHERE login = '{add_friend}' OR email = '{add_friend}';
             """)
             data = cursor.fetchone()
         self.connection.commit()
         return data
+    
+    def clear_token(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute(f"""
+                DELETE FROM autorization
+                WHERE user_id = {user_id};
+            """)
+        self.connection.commit()
+        print('table cleaned')
+
+    def need(self):
+        print('пошла жара')

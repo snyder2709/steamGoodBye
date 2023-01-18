@@ -2,26 +2,35 @@ from flask import (
     Flask, 
     request, 
     redirect, 
-    jsonify, 
+    jsonify,
+    flash, 
     )
+from flask_login import LoginManager, login_user, current_user, login_required
+from flask_apscheduler import APScheduler
 from werkzeug.security import check_password_hash
+from userlogin import UserLogin
 from services import Connecting
+import os
 
 
 app = Flask(__name__)
+app.secret_key = os.urandom(50)
 conn: Connecting = Connecting()
+login_manager = LoginManager(app)
+scheduler = APScheduler()
 
 conn.connect_db()
 conn.create_tables()
-conn.create_superuser('genitalgrinder90@gmail.com' ,'Brick92', 'root', 'Brick', '92')
+conn.create_superuser('genitalgrinder90@gmail.com' ,'Brick92', 'root')
 
-user_id = ''
-admin_id = ''
 
+@login_manager.user_loader
+def load_user(id):
+    print('load_user')
+    return UserLogin().fromDB(id)
 
 @app.route('/', methods=['GET', 'POST'])
 def main():
-    global user_id
     if request.method == 'POST':
         form = request.get_json()
         login = form.get('login')
@@ -32,7 +41,20 @@ def main():
         elif login == data[0][1] and check_password_hash(data[0][3], password) == False:
             return jsonify({"message" : "неправильный пароль"})
         elif login == data[0][2] and check_password_hash(data[0][3], password) == True:
-            user_id = data[0][0]
+            userlogin = UserLogin().create(data[0])
+            login_user(userlogin)
+            user_id = current_user.get_id()
+            token = conn.generate_token()
+            conn.autorization(user_id, token)
+            is_admin = conn.check_admin(login)
+            # scheduler.add_job(id = 'Scheduled Task', func=conn.need, trigger="interval", seconds=20, kwargs=conn.clear_token(user_id))
+            # scheduler.start()
+            if is_admin:
+                flash(user_id)
+                flash(token)
+                return redirect('/admin')
+            flash(user_id)
+            flash(token)
             return redirect('/shop')
     return jsonify({"message" : "autorization"})
 
@@ -41,49 +63,42 @@ def reg():
     if request.method == 'POST':
         form = request.get_json()
         email = form.get('email')
-        first_name = form.get('first_name')
-        last_name = form.get('last_name')
         login = form.get('login')
         password = form.get('password')
-        check_password = form.get('check_password')
         data = conn.check_user(login)
         mail_data = conn.check_user_mail(email)
-        if password != check_password:
-            return jsonify({"message" : "пароли не совпадают"})
-        elif data:
+        if data:
             return jsonify({"message" : "логин занят"})
         elif mail_data:
             return jsonify({"message" : "Данный адрес уже зарегистрирован"})
-        elif not data and not mail_data and password == check_password:
-            conn.registration(email, login, password, first_name, last_name)
+        elif not data and not mail_data and password:
+            conn.registration(email, login, password)
             return redirect('/')
     return jsonify({"message" : "registration"})
 
 @app.route('/shop')
 def search():
-    global user_id
     data = conn.get_games()
-    return jsonify(data, user_id)
+    return jsonify(data)
 
-@app.route('/shop/<int:id>', methods=['GET', 'POST'])
-def get_game(id):
-    global user_id
-    if not user_id:
-        return redirect('/')
+@app.route('/shop/<int:game_id>', methods=['GET', 'POST'])
+def get_game(game_id):
     data = conn.list_result()
     basket_data = conn.check_add_in_basket(id)
     result: list[tuple] = []
     for i in data:
-        if i[0] == int(id):
+        if i[0] == int(game_id):
             price = i[5]
             result.append(i)
     if request.method == 'POST':
+        form = request.get_json()
+        user_id = form.get('user_id')
         data = conn.check_buy(id)
         if not data:
             return jsonify({"message" : "извините ключей не осталось"})
         elif data:
             if not basket_data:
-                conn.add_to_basket(user_id, id)
+                conn.add_to_basket(user_id, game_id)
                 return jsonify(result, {"message" : "добавлено в корзину"})
             else:
                 return jsonify(result, {"message" : "товар уже добавлен"})
@@ -91,13 +106,11 @@ def get_game(id):
 
 @app.route('/shop/basket', methods=['GET', 'POST'])
 def basket():
-    global user_id
-    if not user_id:
-        return redirect('/')
     summ = 0
     data = conn.check_basket()
     if request.method == 'POST':
         form = request.get_json()
+        user_id = form.get('user_id')
         games = form.getlist('id_game')
         for i in games:
             price: float = conn.get_price(i)
@@ -109,83 +122,52 @@ def basket():
         for j in games:
             key = conn.get_key(j)
             conn.key_send(key[0])
-            conn.add_game_to_user(user_id, j, key[0])
+            conn.add_game_to_user(user_id, j, key[1])
         conn.buy(summ, user_id)
         return jsonify(data, {"message" : "Поздравляем с приобретением!"})
     return jsonify(data, {"message" : "basket"})
 
 @app.route('/personal-cab/<int:id>', methods=['GET','POST'])
 def personal_cab(id):
-    global user_id
-    if not user_id:
-        return redirect('/')
     personal_data = conn.get_user(id)
     games_data = conn.get_user_games(id)
     if request.method == 'POST':
         form = request.get_json()
+        user_id = form.get('user_id')
         money = form.get('money')
-        if int(money) > 0:
-            conn.art_money(user_id, money)
-            return jsonify(personal_data, games_data, user_id, {"message" : "success"})
-    return jsonify(personal_data, games_data, user_id)
-
-@app.route('/personal-cab/<int:id>/friends', methods=['GET', 'POST'])
-def friends(id):
-    global user_id
-    if not user_id:
-        return redirect('/')
-    if request.method == 'POST':
-        form = request.get_json()
         add_friend = form.get('add_friend')
-        search = conn.search_friend(add_friend)
-        if search:
-            return jsonify(user_id, search, {"message" : "Найден пользователь"})
-        return jsonify(user_id, search, {"message" : "Пользователь не найден"})
-    return jsonify(user_id)
+        try:
+            if int(money) > 0:
+                conn.art_money(user_id, money)
+                return jsonify(personal_data, games_data, user_id, {"message" : "success"})
+        except:
+            search = conn.search_friend(add_friend)
+            if search:
+                message = 'Найден пользователь'
+                return jsonify(personal_data, games_data, message, search)
+            message = 'Пользователь не найден'
+            return jsonify(personal_data, games_data, message)
+    return jsonify(personal_data, games_data)
 
-@app.route('/admin', methods=['GET', 'POST'])
+@app.route('/admin')
 def admin():
-    global admin_id
-    if request.method == 'POST':
-        form = request.get_json()
-        login = form.get('login')
-        password = form.get('password')
-        data = conn.check_admin(login)
-        hash = check_password_hash(data[0][3], password)
-        if not data:
-            return jsonify({"message" : "неправильный логин"})
-        elif login == data[0][2] and hash == False:
-            return jsonify({"message" : "Неправильный пароль"})
-        elif login == data[0][2] and hash == True:
-            admin_id = data[0][0]
-            return redirect('/admin/ok')
-    return jsonify({"message" : "admin"})
-
-@app.route('/admin/ok')
-def admin_ok():
-    return jsonify('<h2><a href="/admin/set-genres">Добавьте жанры</a></h2><h2><a href="/admin/add-game">Добавьте игры</h2><h2><a href="/admin/add-key">Добавить ключи</a></h2>')
+    return jsonify({"message" : "тут надо отловить 2 флеша и сделать ссылки на\
+         добавления, жанров, игр и кодов"})
 
 @app.route('/admin/ok/set-genres', methods=['GET', 'POST'])
 def add_genre():
-    global admin_id
-    if not admin_id:
-        return redirect('/admin')
     data = conn.get_genres()
     if request.method == 'POST':
         form = request.get_json()
         title = form.get('title')
-        description = form.get('description')
-        if title and description:
-            conn.set_genres(title, description)
+        if title:
+            conn.set_genres(title)
             return jsonify(data, {"message" : "Genre was added"})
         return jsonify(data, {"message" : "Fields must be not empty"})
     return jsonify(data)
 
 @app.route('/admin/ok/add-key', methods=['GET', 'POST'])
 def add_key():
-    global admin_id
-    if not admin_id:
-        return redirect('/admin')
     result = conn.list_result()
     data = conn.get_games()
     if request.method == 'POST':
@@ -206,9 +188,6 @@ def add_key():
 
 @app.route('/admin/add-game', methods=['GET', 'POST'])
 def add_game():
-    global admin_id
-    if not admin_id:
-        return redirect('/admin')
     genre_data = conn.get_genres()
     games_data = conn.get_games()
     result = conn.list_result()
@@ -217,9 +196,10 @@ def add_game():
         title = form.get('title')
         description = form.get('description')
         price = form.get('price')
+        year = request.form.get('year')
         genres = form.getlist('genre')
         if title and description and genres and title not in games_data:
-            conn.set_game(title, description, price)
+            conn.set_game(title, description, year, price)
             game = conn.get_game_id(title)
             game_id = game[0][0]
             for i in genres:
