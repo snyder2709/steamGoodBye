@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>head-page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css-head-page/style-head-page.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css-head-page/card-head-page.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css-head-page/style-form.css') }}">
+
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+    href="https://fonts.googleapis.com/css2?family=Barlow:wght@100&family=Blaka&family=Montserrat:wght@400;500;600;700&family=Nunito&family=Poppins:wght@200;400;500;600&family=Rubik&display=swap"
+    rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="wrapper-wb">
+    <!-- фон страницы -->
+    <div class="wrapper-background">
+        <div class="wrapper-scene-banner"></div>
+        <div class="scene-wrapper">
+            <div class="double-scene-poster">
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+            </div>
+            <div class="double-scene-poster">
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+            </div>
+            <div class="triple-scene-poster">
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+            </div>
+            <div class="double-scene-poster">
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+                <div class="head-page-scene-poster"></div>
+            </div>
+        </div>
+    </div>
+    <!-- https://steambuy.com/_templates/img/svg/ico-down-button.svg -->
+    <header class="header-global">
+        <div class="header-navbar">
+            <div class="header-authorize-container">
+    
+                <div class="basket-container">
+                    <div class="shopping-basket">
+                        
+                    </div>
+                </div>
+    
+                <button class="open-form-button">Войти</button>
+            </div>
+        </div>
+        
+        <!-- навигация и поиск -->
+        <section class="global-navbar">
+           <nav class="navbar-href">
+               <a href="">Главная</a>
+               <a href="" class="nav-popup">Каталог <div class="svg-down-arrow"></div></a>
+               <a href="/faq">FAQ</a>
+        
+               <a href="">Отзывы</a>
+           </nav>
+           <div class="global-nav-search">
+               <input type="search" name="searchGlobal" id="searchGlobal">
+           </div>
+        </section>
+    </header>
+
+   
+<!-- основной контет главная страница -->
+    <section class="container-head-page">
+
+        <div class="payment-menthod-wrapper">
+            <div class="payment-method">
+                <div class="method">
+                    <h4 class="method-title">Аккаунт Steam</h4>
+                    <div class="description-method">
+                        <p class="description-method-text">
+                            Покупка на текущий аккаунт steam по средством добавления аккаунта магазина в друзья и получение игры подарком
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="payment-method">
+                <div class="method">
+                    <h4 class="method-title">Семейный доступ</h4>
+                    <div class="description-method">
+                        <p class="description-method-text">
+                            Добавление аккаунта купленного у магазина в семейным доступ
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="payment-method">
+                <div class="method">
+                    <h4 class="method-title">Аренда игры</h4>
+                    <div class="description-method">
+                        <p class="description-method-text">
+                            Аренда игры через семейный доступ  
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- контейнер где будет слайдер и остольной контент -->
+        <main class="main-wrapper-head-page">
+            <!-- баннер слайдер топ 4 игры -->
+            <h2 class="slider-banner-title">Топ продаж</h2>
+            <div class="head-page-slider-banner">
+                <button class="button-slider">
+                    <div class="slider-prev"></div>
+                </button>
+                <div class="slider">
+                    <div class="slider-line">
+                        <div class="banner-slider">
+                            <div class="head-inset-banner" data-img=""></div>
+                            <div class="secondary-inset-banner">
+                                <div class="top-secondary-inset">
+                                    <div class="banner-fon"></div>
+                                    <h3 class="title-secondary-banner-text"></h3>
+                                    <p class="description-secondary-banner-text"></p>
+                                    <div class="buy-container">
+                                        <div class="price">750&#8381;</div>
+                                        <button class="buy-product slider-btn-buy">Добавить в корзину</button>
+                                    </div>
+                                </div>
+                                <div class="bottom-secondary-inset">
+                                    <div class="banner-fon"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="banner-slider">
+                            <div class="head-inset-banner" data-img=""></div>
+                            <div class="secondary-inset-banner">
+                                <div class="top-secondary-inset">
+                                    <div class="banner-fon"></div>
+                                    <h3 class="title-secondary-banner-text"></h3>
+                                    <p class="description-secondary-banner-text"></p>
+                                    <div class="buy-container">
+                                        <div class="price">750&#8381;</div>
+                                        <button class="buy-product slider-btn-buy">Добавить в корзину</button>
+                                    </div>
+                                </div>
+                                <div class="bottom-secondary-inset">
+                                    <div class="banner-fon"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="banner-slider">
+                            <div class="head-inset-banner" data-img=""></div>
+                            <div class="secondary-inset-banner">
+                                <div class="top-secondary-inset">
+                                    <div class="banner-fon"></div>
+                                    <h3 class="title-secondary-banner-text"></h3>
+                                    <p class="description-secondary-banner-text"></p>
+                                    <div class="buy-container">
+                                        <div class="price">750&#8381;</div>
+                                        <button class="buy-product slider-btn-buy">Добавить в корзину</button>
+                                    </div>
+                                </div>
+                                <div class="bottom-secondary-inset">
+                                    <div class="banner-fon"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="banner-slider">
+                            <div class="head-inset-banner" data-img=""></div>
+                            <div class="secondary-inset-banner">
+                                <div class="top-secondary-inset">
+                                    <div class="banner-fon"></div>
+                                    <h3 class="title-secondary-banner-text"></h3>
+                                    <p class="description-secondary-banner-text"></p>
+                                    <div class="buy-container">
+                                        <div class="price">750&#8381;</div>
+                                        <button class="buy-product slider-btn-buy">Добавить в корзину</button>
+                                    </div>
+                                </div>
+                                <div class="bottom-secondary-inset">
+                                    <div class="banner-fon"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                    <div class="screenshot-banner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                
+                <button class="button-slider">
+                    <div class="slider-next"></div>
+                </button>
+            </div>
+
+            <div class="list-game">
+                <div class="nav-game-list">
+                    <nav class="nav-game-href " data-list-game="0">Рекомендуем</nav>
+                    <nav class="nav-game-href" data-list-game="1">Новые товары</nav>
+                    <nav class="nav-game-href" data-list-game="2">Лидеры продаж</nav>
+                    <nav class="nav-game-href" data-list-game="3">Сниженные цены</nav>
+                    <nav class="nav-game-href" data-list-game="4">Скоро</nav>
+                </div>
+               
+
+                <div class="slider-game-list">
+                        <div class="list-game-card active-card"> 
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="list-game-card">
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="list-game-card">
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="list-game-card">
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="list-game-card">
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            <div class="card-game">
+                                <div class="img-game-card">
+            
+                                </div>
+                                <div class="descriptiion-game-card">
+                                    <h3 class="game-name-card">Назваиние:</h3>
+                                    <h4 class="game-publisher-card">Издатель:</h4>
+                                    <h4 class="game-year-card">Год:</h4>
+                                </div>
+                            </div>
+                            
+                        </div>
+                </div>
+
+               
+            </div>
+        </main>
+
+    </section>
+
+
+    </div>
+
+
+
+   
+
+
+
+
+        <script src="{{url_for('static', filename='/js-head-page/script-head-page.js')}}"></script>
+    <!-- <script src="./js-head-page/auth.js"></script> -->
+</body>
+</html>

@@ -2,6 +2,7 @@ from flask import (
     Flask, 
     request, 
     redirect, 
+    render_template,
     jsonify,
     flash, 
     )
@@ -25,6 +26,16 @@ conn.create_superuser('genitalgrinder90@gmail.com' ,'Brick92', 'root')
 
 
 @login_manager.user_loader
+
+@app.route('/', methods=['GET', 'POST'])
+def head():
+    return render_template('head-page.html')
+
+@app.route('/faq', methods=['GET', 'POST'])
+def faq():
+    redirect('/')
+    return render_template('f.a.q.html')
+
 def load_user(id):
     print('load_user')
     return UserLogin().fromDB(id)

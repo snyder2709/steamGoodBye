@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- Кнопка открытия форм -->
+    <button class="open-form-button">Войти</button>
+    <!-- Блок затемнение фона -->
+    <div class="blackout-background">
+        <div class="container">
+            <div class="forms">
+                <!-- Форма входа в систему -->
+                <div class="form login">
+                    <div class="form-title">Вход</div>
+                    
+                    <form action="#" class="login-form">
+                        <!-- Поле с email -->
+                        <div class="field email">
+                            <div class="input-area">
+                                <input type="text" class="user-login-email" placeholder="Email">
+                                <i class="uil uil-envelope icon"></i>
+                                <i class="error error-icon uil uil-exclamation-triangle"></i>
+                                <i class="valid valid-icon uil uil-check"></i>
+                            </div>
+                            <!-- Текст ошибки -->
+                            <div class="error error-txt">Заполните email</div>
+                        </div>
+                        
+                        <!-- Поле с паролем -->
+                        <div class="field password">
+                            <div class="input-area">
+                                <input type="password" class="user-login-password password" placeholder="Пароль">
+                                <i class="uil uil-lock icon"></i>
+                                <i class="uil uil-eye-slash showHidePw"></i>
+                                <i class="error error-icon uil uil-exclamation-triangle"></i>
+                                <i class="valid valid-icon uil uil-check"></i>
+                            </div>
+                              <!-- Текст ошибки -->
+                            <div class="error error-txt">Заполните пароль</div>
+                        </div>
+
+                        <!-- Блок с ссылкой забыли пароль  -->
+                        <div class="forgot-password-block">
+                            <a href="#" class="forgot-password-link form-link">Забыли пароль?</a>
+                        </div>
+                        <!-- Кнопка для входа  -->
+                        <button type="submit" class="login-btn submit-btn">Войти</button>
+                    </form>
+                    <!-- Разделяющая линия "или" -->
+                    <div class="line"></div>
+
+                    <!-- Кнопка для входа через Steam -->
+                    <div class="steam-btn-block">
+                        <a href="#">
+                            <button type="button" class="another-btn steam-login-btn">
+                                <img src="img/steam-logo.png" alt="" class="another-btn-logo">
+                                <span class="another-login-btn-text">Войти через Steam</span>
+                            </button>
+                        </a>
+                    </div>
+
+                    <!-- Кнопка для входа через Google -->
+                    <div class="google-btn-block">
+                        <a href="#">
+                            <button type="button" class="another-btn google-login-btn">
+                                <img src="img/google-logo.png" alt="" class="another-btn-logo">
+                                <span class="another-btn-text">Войти через Google</span>
+                            </button>
+                        </a>
+                    </div>
+
+                    <!-- Блок с ссылкой регистрации -->
+                    <div class="login-or-signup-block">
+                        <span class="text">Нет аккаунта?
+                            <a href="#" class="signup-link form-link">Регистрация</a>
+                        </span>
+                    </div>
+                      <button class="modal-close">&#10006</button>
+                </div>
+
+                <!-- ---------------------------------------------------------------------------------------------------------------------                 -->
+
+                <!-- Форма регистрации в систему-->
+                <div class="form signup">
+                    <div class="form-title">Регистрация</div>
+                    <form action="#" class="signup-form">
+                         <!-- Поле с ником -->
+                         <div class="field nick">
+                            <div class="input-area">
+                                <input type="text" class="user-registration-nick" placeholder="Ник">
+                                <i class="uil uil-envelope icon"></i>
+                                <i class="error error-icon uil uil-exclamation-triangle"></i>
+                                <i class="valid valid-icon uil uil-check"></i>
+                            </div>
+                            <!-- Текст ошибки -->
+                            <div class="error error-txt">Такой пользователь уже существует</div>
+                        </div>
+                         <!-- Поле с email -->
+                         <div class="field email">
+                            <div class="input-area">
+                                <input type="text" class="use-registration-email" placeholder="Email">
+                                <i class="uil uil-envelope icon"></i>
+                                <i class="error error-icon uil uil-exclamation-triangle"></i>
+                                <i class="valid valid-icon uil uil-check"></i>
+                            </div>
+                            <!-- Текст ошибки -->
+                            <div class="error error-txt">Заполните email</div>
+                        </div>
+                        
+                        <!-- Поле с паролем -->
+                        <div class="field password">
+                            <div class="input-area">
+                                <input type="password" class="user-registration-password password" placeholder="Пароль">
+                                <i class="uil uil-lock icon"></i>
+                                <i class="uil uil-eye-slash showHidePw"></i>
+                                <i class="error error-icon uil uil-exclamation-triangle"></i>
+                                <i class="valid valid-icon uil uil-check"></i>
+                            </div>
+                              <!-- Текст ошибки -->
+                            <div class="error error-txt">Заполните пароль</div>
+                        </div>
+                
+                        <!-- Кнопка для регистрации -->
+                        <button type="submit" class="registration-btn submit-btn">Начать</button>
+                    </form>
+
+                    <!-- Разделяющая линия "или" -->
+                    <div class="line"></div>
+
+                    <!-- Кнопка для регистрации через Steam -->
+                    <div class="steam-btn-block">
+                        <a href="#">
+                            <button type="button" class="another-btn steam-registration-btn">
+                                <img src="img/steam-logo.png" alt="" class="another-btn-logo">
+                                <span class="another-btn-text">Регистрация через Steam</span>
+                            </button>
+                        </a>
+                    </div>
+
+                    <!-- Кнопка для регистрации через Google -->
+                    <div class="google-btn-block">
+                        <a href="#">
+                            <button type="button" class="another-btn google-registration-btn">
+                                <img src="img/google-logo.png" alt="" class="another-btn-logo">
+                                <span class="another-btn-text">Регистрация через Google</span>
+                            </button>
+                        </a>
+                    </div>
+
+                    <!-- Блок с ссылкой входа -->
+                    <div class="login-or-signup-block">
+                        <span class="text">Есть аккаунт?
+                            <a href="#" class="login-link form-link">Войти</a>
+                        </span>
+                    </div>
+                    <button class="modal-close">&#10006</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

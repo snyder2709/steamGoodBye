@@ -1,0 +1,394 @@
+
+
+/*Затемнение фона*/
+.blackout-background {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.733);
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/*Контейнер с формой*/
+.container {
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #1b1d29;
+    overflow: hidden;
+    margin: auto;
+    cursor: default;
+}
+
+/*Стилизация блока с формой*/
+.container .forms {
+    display: flex;
+    align-items: center;
+    height: 540px;
+    width: 200%;
+    transition: height 0.2s ease;
+}
+
+/*Стилизация формы входа и регистрации*/
+.container .form {
+    width: 50%;
+    padding: 30px;
+    background-color: transparent;
+    transition: margin-left 0.18s ease;
+}
+
+/*Форма входа уходит вместо нее становится форма регистрации*/
+.container.active .login {
+    margin-left: -50%;
+    opacity: 0;
+    transition: margin-left 0.18s ease, opacity 0.15s ease;
+}
+
+/*Увеличивается высота окнтейнера с формами когда идёт переход с входа на регистрацию*/
+.container.active .forms {
+    height: 560px;
+}
+
+/*Заголовок формы*/
+.form-title {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 27px;
+    font-weight: 600;
+    color: #5ef7ff;
+}
+
+/*Блоки с полями ввода*/
+.form .input-field {
+    position: relative;
+    height: 35px;
+    width: 100%;
+    margin-top: 25px;
+}
+
+/*Стилизация полей ввода*/
+.input-field input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    padding: 0 35px;
+    border: none;
+    font-size: 16px;
+    caret-color: #29cbd3;
+    color: #fff;
+    border-bottom: 2px solid #999;
+    transition-duration: .3s;
+}
+
+/*Анимация при фокусе и когда введены какие-то символы*/
+.input-field input:is(:focus, :valid) {
+    border-bottom-color: #5ef7ff;
+}
+
+/*Стилизация всех иконок в полях ввода*/
+.input-field i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 23px;
+    transition-duration: .3s;
+}
+
+/*Анимация всех иконок в полях ввода*/
+.input-field input:is(:focus, :valid)~i {
+    color: #5ef7ff;
+}
+
+/*Расположение иконок которые расположены с краю слева в полях ввода*/
+.input-field i.icon {
+    left: 0;
+}
+
+/*Расположение и стилизация иконки глаза*/
+.input-field i.showHidePw {
+    right: 0;
+    cursor: pointer;
+    padding: 10px;
+}
+
+/*Стилизация обычного текста в формах*/
+.form .text {
+    color: #999;
+}
+
+/*Блок с ссылкой забыли пароль*/
+.forgot-password-block {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/*Стилизация ссылок в форме*/
+.form-link {
+    color: #5ef7ff;
+    transition-duration: .3s;
+}
+
+/*Анимаци ссылок в форме*/
+.form-link:hover {
+    color: #fff;
+}
+
+/*Стилизация кнопки открытия формы*/
+.open-form-button {
+    padding: 10px 32px;
+    background-color: #1b1d29;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 28%);
+    border-radius: 4px;
+    border: 2px solid #adfcff;
+    font-size: 14px;
+    font-weight: 500;
+    color: #adfcff;
+    transition-duration: .3s
+}
+
+/*Анимация кнопки открытия формы*/
+.open-form-button:hover {
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+/*Стилизация кнопки входа и регистрации*/
+.form button.submit-btn {
+    width: 100%;
+    height: 45px;
+    background-color: #adfcff;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #0d0e13;
+    margin-top: 20px;
+    transition-duration: .3s;
+}
+
+/*Анимация кнопки входа и регистрации*/
+.form button.submit-btn:hover {
+    box-shadow: 0 8px 12px rgb(173 252 255 / 20%);
+}
+
+/*Стилизация кнопок для иного входа*/
+.another-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 45px;
+    background-color: transparent;
+    border: 1px solid #363c59;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #a1a8ce;
+    transition-duration: .3s;
+}
+
+/*Анимация кнопок для иного входа*/
+.another-btn:hover {
+    background-color: #282d3f;
+    color: #fff;
+}
+
+/*Позиция и стилизация разделяющей линии "или"*/
+.line {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    margin: 36px 0;
+    background-color: #999;
+}
+
+/*Стилизация блока-псевдокласса "или"*/
+.line::before {
+    content: "Или";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1b1d29;
+    color: #5ef7ff;
+    padding: 0 15px;
+}
+
+/*Блок с кнопкой Steam*/
+.steam-btn-block {}
+
+/*Блок с кнопкой Google*/
+.google-btn-block {
+    margin-top: 10px;
+}
+
+/*Логотипы steam,google*/
+img.another-btn-logo {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+/*Расположение ссылки для перехода на форму регистрации или на форму входа*/
+.form .login-or-signup-block {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/*Поле с input и с текстом ошибки*/
+form .field {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/*Анимация к полям вода*/
+form .field.shake {
+    animation: shake 0.3s ease-in-out;
+}
+
+/*Анимация ошибки полей ввода*/
+@keyframes shake {
+    0%, 100% {
+        margin-left: 0px;
+    }
+
+    20%, 80% {
+        margin-left: -12px;
+    }
+
+    40%, 60% {
+        margin-left: 12px;
+    }
+}
+
+/*Поле с input*/
+form .field .input-area {
+    position: relative;
+    height: 35px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/*Стилизация input*/
+form input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    padding: 0 35px;
+    border: none;
+    font-size: 16px;
+    caret-color: #5ef7ff;
+    color: #fff;
+    border-bottom: 2px solid #999;
+    transition-duration: .3s;
+}
+
+/*Анимация input при фокусе*/
+form .input-area input:focus {
+    border-bottom-color: #5ef7ff;
+}
+
+/*Ошибка: окрашивание рамок input в оранжевый цвет*/
+form .field.error input {
+    border-color: #ff7300;
+}
+
+/*Ошибка: окрашивание рамок input в оранжевый цвет*/
+form .field.valid input {
+    border-color: #adfcff;
+}
+
+/*Позиция и стилизация иконок в input*/
+.field .input-area i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 23px;
+    transition-duration: .3s;
+}
+
+/*Анимация всех иконок в полях ввода*/
+.input-area input:focus~i.icon {
+    color: #5ef7ff;
+}
+
+/*Стилизация и позиция иконок: email и пароля*/
+.input-area .icon {
+    left: 5px;
+    bottom: -5px;
+    color: #bfbfbf;
+    transition: color 0.2s ease;
+}
+
+/*Стилизация иконки - глаза*/
+.input-area i.showHidePw {
+    right: 0;
+    cursor: pointer;
+    padding: 10px;
+}
+
+/*Анимация иконки - глаза*/
+.input-area i.showHidePw:hover {
+color: #5ef7ff;
+}
+
+/*Стилизация иконки - ошибка*/
+.input-area i.error-icon {
+    top: 5px;
+    right: -5px;
+    font-size: 14px;
+    color: #ff7300;
+
+}
+
+/*Стилизация иконки - галочка*/
+.input-area i.valid-icon {
+    top: 5px;
+    right: -10px;
+    font-size: 20px;
+    color: #adfcff;
+}
+
+/*Стилизация текста "ошибки"*/
+form .field .error-txt {
+    color: #ffa600;
+    text-align: left;
+    margin-top: 5px;
+}
+
+/*Ошибка не видна по умолчанию*/
+form .field .error {
+    display: none;
+}
+
+/*Ошибка не видна по умолчанию*/
+form .field .valid {
+    display: none;
+}
+
+/*Ошибка видна*/
+form .field.shake .error,
+form .field.error .error {
+    display: block;
+}
+
+form .field.valid .valid {
+    display: block;
+}
+
+.modal-close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background-color: transparent;
+    color: #5ef7ff;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+}
