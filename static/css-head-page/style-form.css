@@ -7,11 +7,21 @@
     background-color: rgba(0, 0, 0, 0.733);
     padding: 30px;
     overflow-y: auto;
+    z-index: 4;
 }
 
 /*Контейнер с формой*/
-.container {
-    position: relative;
+/* .wrapper-form{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.733);
+    padding: 30px;
+    overflow-y: auto;
+} */
+.container-form {
+    position: absolute;
+    top: 20%;
+    left: 40%;
     max-width: 400px;
     width: 100%;
     border-radius: 10px;
@@ -22,7 +32,7 @@
 }
 
 /*Стилизация блока с формой*/
-.container .forms {
+.container-form .forms {
     display: flex;
     align-items: center;
     height: 540px;
@@ -31,24 +41,28 @@
 }
 
 /*Стилизация формы входа и регистрации*/
-.container .form {
-    width: 50%;
-    padding: 30px;
+
+.container-form .form {
+    width: 40%;
+    padding: 45px;
     background-color: transparent;
     transition: margin-left 0.18s ease;
 }
+.form.signup{
+    width: 40%;
+}
 
 /*Форма входа уходит вместо нее становится форма регистрации*/
-.container.active .login {
-    margin-left: -50%;
+.container-form.active .login {
+    margin-left: -51%;
     opacity: 0;
     transition: margin-left 0.18s ease, opacity 0.15s ease;
 }
 
 /*Увеличивается высота окнтейнера с формами когда идёт переход с входа на регистрацию*/
-.container.active .forms {
+/* .container-form.active .forms {
     height: 560px;
-}
+} */
 
 /*Заголовок формы*/
 .form-title {
@@ -267,7 +281,7 @@ form .field.shake {
 form .field .input-area {
     position: relative;
     height: 35px;
-    width: 100%;
+    width: 78%;
     margin-top: 10px;
 }
 
@@ -326,7 +340,7 @@ form .field.valid input {
 
 /*Стилизация иконки - глаза*/
 .input-area i.showHidePw {
-    right: 0;
+    right: -70px;
     cursor: pointer;
     padding: 10px;
 }
@@ -339,7 +353,7 @@ color: #5ef7ff;
 /*Стилизация иконки - ошибка*/
 .input-area i.error-icon {
     top: 5px;
-    right: -5px;
+    right: -25px;
     font-size: 14px;
     color: #ff7300;
 

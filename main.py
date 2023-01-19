@@ -35,6 +35,10 @@ def head():
 def faq():
     redirect('/')
     return render_template('f.a.q.html')
+# @app.route('/auth', methods=['GET', 'POST'])
+# def auth():
+#     # redirect('/')
+#     return render_template('authorize.html')
 
 def load_user(id):
     print('load_user')
@@ -71,8 +75,10 @@ def main():
 
 @app.route('/reg', methods=['GET', 'POST'])
 def reg():
+    print(request)
     if request.method == 'POST':
         form = request.get_json()
+        print(form)
         email = form.get('email')
         login = form.get('login')
         password = form.get('password')

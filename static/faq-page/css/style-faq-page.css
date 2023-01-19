@@ -451,12 +451,12 @@ button {
 
 /* форма popup задать вопрос  */
 .faq-popup-container {
-    position: absolute;
+    position: fixed;
     top: 200px;
     display: flex;
     flex-direction: column;
     width: 30%;
-    height: 10%;
+    height: 420px;
     /* border: 1px solid; */
     z-index: 99;
     gap: 10px;

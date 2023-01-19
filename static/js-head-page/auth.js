@@ -1,9 +1,11 @@
-async function  auth (){
-const container = document.querySelector(".container"),
+function  auth (){
+
+const container = document.querySelector(".container-form"),
     pwShowHide = document.querySelectorAll(".showHidePw"),
     pwFields = document.querySelectorAll(".password"),
     signup = document.querySelector(".signup-link"),
-    login = document.querySelector(".login-link");
+    login = document.querySelector(".login-link"),
+    regBtn = document.querySelector(".registration-btn");
 
 //   js code to show/hide password and change icon
 pwShowHide.forEach(eyeIcon => {
@@ -27,19 +29,22 @@ pwShowHide.forEach(eyeIcon => {
 })
 
 // Функции для переключения форм
-signup.addEventListener("click", () => {
+signup.addEventListener("click", (e) => {
+    e.preventDefault()
     container.classList.add("active");
 });
-login.addEventListener("click", () => {
+login.addEventListener("click", (e) => {
+    e.preventDefault()
     container.classList.remove("active");
 });
 
 // ------------------------------------------------------------------------
 
 // Функция для открытия формы в виде модального окна
-const modalController = ({ blackoutBackground, btnOpen, btnClose, time }) => {
+const modalController = ({blackoutBackground, btnOpen, btnClose, time }) => {
     const buttonElem = document.querySelectorAll(btnOpen);
     const modalElem = document.querySelector(blackoutBackground);
+    const navbar = document.querySelector('.global-navbar');
 
     modalElem.style.cssText = `
         display: flex;
@@ -51,12 +56,15 @@ const modalController = ({ blackoutBackground, btnOpen, btnClose, time }) => {
     const openModal = () => {
         modalElem.style.visibility = "visible";
         modalElem.style.opacity = 1;
-        window.addEventListener("keydown", closeModal)
+        navbar.style.display = "none";
+        // window.addEventListener("keydown", closeModal)
     }
 
     const closeModal = (e) => {
-        const target = e.target;
+        let target = e.target
+        
         if (target.closest(btnClose)) {
+            navbar.style.display = "flex";
             modalElem.style.opacity = 0;
             setTimeout(() => {
                 modalElem.style.visibility = 'hidden';
@@ -75,7 +83,7 @@ modalController({
     blackoutBackground: ".blackout-background",
     btnOpen: ".open-form-button",
     btnClose: ".modal-close",
-    time: 1000
+    time: 400
 });
 
 // ------------------------------------------------------------------------
@@ -191,4 +199,32 @@ loginForm.onsubmit = (e) => {
         }
     }
 }
+
+
+// ................................................
+// функция отправки данных JSON
+async function sendDataJson(url,data){
+    let response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(data)
+      });
+      let result = await responce.json()
+      console.log(result)
 }
+// отправка формы 
+let formRegistr = document.forms[1]
+
+formRegistr.addEventListener('submit',function(){
+    let submitData = {
+        nickName:`${formRegistr[0].value}`,
+        email:`${formRegistr[1].value}`,
+        password:`${formRegistr[2].value}`
+    }
+    sendDataJson('/reg',submitData)
+})
+}
+auth()
+
